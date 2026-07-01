@@ -39,13 +39,12 @@ Alembic. A autenticação usa \emph{JSON Web Token} (JWT), com \emph{access toke
 identificador de requisição. O sistema registra \emph{logs} estruturados em JSON para
 observabilidade, com remoção de dados pessoais. A implantação usa contêineres Docker
 (\emph{backend}, \emph{frontend}, banco, \emph{proxy} Caddy e o modelo de IA via Ollama) e
-foi executada em servidor da Universidade de Brasília com aceleração por GPU. As
-Figuras~\ref{fig:arquitetura} e~\ref{fig:fluxo} apresentam a arquitetura geral e o fluxo de
-processamento do \sintonia.
+foi executada em servidor da Universidade de Brasília com aceleração por GPU. A
+Figura~\ref{fig:arquitetura} apresenta a arquitetura geral e o fluxo de processamento do
+\sintonia, do dispositivo de aquisição à interface, com o fluxo local (principal) e o de
+contingência em nuvem.
 
 \figura{figuras/arquitetura}{Arquitetura completa do sistema \sintonia, do dispositivo de aquisição à interface, com o fluxo local (principal) e o de contingência em nuvem}{fig:arquitetura}{width=\linewidth}
-
-\figuraplaceholder{Fluxo geral de processamento e interpretação do \sintonia}{fig:fluxo}
 
 \section{Integração com a Balança via Web Bluetooth}
 
@@ -372,7 +371,7 @@ interação do usuário com a assistente Vida pelo WhatsApp.
 
 \figura{figuras/tela-principal}{Interface principal (dashboard) do aplicativo \sintonia, com os indicadores corporais, a leitura interpretativa e o gráfico de evolução}{fig:tela}{width=\linewidth}
 
-\figuraplaceholder{Interação do usuário com a assistente virtual do \sintonia\ por meio do WhatsApp}{fig:whatsapp}
+\figura{figuras/whatsapp}{Interação do usuário com a assistente virtual Vida do \sintonia\ por meio do WhatsApp}{fig:whatsapp}{width=.62\linewidth}
 
 \section{Testes Realizados}
 \label{sec:testes}
