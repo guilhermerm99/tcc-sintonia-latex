@@ -451,7 +451,19 @@ demonstra o funcionamento do Estágio~2 de ponta a ponta; com medições reais n
 pipeline alimenta a série ``medido vs corrigido'' e a banda de confiança do gráfico de evolução,
 como ilustra a Figura~\ref{fig:grafico-correcao}.
 
-\figura{figuras/grafico-correcao}{Gráfico de evolução do \sintonia\ (percentual de gordura): a linha ``medido'' oscila conforme o contexto de cada medição, enquanto a linha ``corrigido'' permanece estável; a faixa sombreada é o intervalo de confiança de 95\% da correção}{fig:grafico-correcao}{width=\linewidth}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=.92\linewidth]{figuras/grafico-correcao-gordura}\\[.15cm]
+    {\footnotesize (a) percentual de gordura}\\[.45cm]
+    \includegraphics[width=.92\linewidth]{figuras/grafico-correcao-massagorda}\\[.15cm]
+    {\footnotesize (b) massa gorda}\\[.45cm]
+    \includegraphics[width=.92\linewidth]{figuras/grafico-correcao-muscular}\\[.15cm]
+    {\footnotesize (c) massa muscular esquelética}
+    \caption{Gráfico de evolução do \sintonia\ para três métricas: a linha ``medido'' oscila
+    conforme o contexto de cada medição, enquanto a linha ``corrigido'' permanece estável; a
+    faixa sombreada é o intervalo de confiança de 95\% da correção \emph{within-user}.}
+    \label{fig:grafico-correcao}
+\end{figure}
 
 \tabela{Estudo de simulação da correção \emph{within-user}: viés injetado por confundidor e viés recuperado pelo modelo (impedância de 50~kHz)}{tab:correcao}{lcc}{%
     \toprule
