@@ -1,0 +1,38 @@
+\section{Objetivo Geral}
+
+Desenvolver um sistema de acompanhamento da composição corporal baseado em bioimpedância
+elétrica e inteligência artificial, capaz de integrar os dados de uma balança de oito
+eletrodos, interpretar os resultados automaticamente e fornecer informações e
+recomendações personalizadas ao usuário.
+
+\section{Objetivos Específicos}
+
+\begin{itemize}
+    \item Desenvolver um protótipo funcional (Prova de Conceito --- PoC) de arquitetura de
+    software, englobando \emph{backend} e interface web progressiva (PWA), para o
+    gerenciamento seguro dos dados.
+    \item Integrar o protótipo aos dados da balança CF577BLE por meio de comunicação
+    Bluetooth Low Energy (BLE) e das APIs do fabricante.
+    \item Implementar mecanismos básicos de anamnese para registrar fatores contextuais
+    (hábitos, hidratação) que influenciam as medições de bioimpedância.
+    \item Explorar e desenvolver um modelo computacional inicial para ajuste das medições
+    da balança, visando aproximá-las de padrões validados para a população brasileira.
+    \item Integrar e especializar um \emph{Small Language Model} (SLM) para interpretação
+    dos dados de composição corporal por meio de regras de interpretação, engenharia de
+    \emph{prompt} e integração com modelos biométricos fundamentados na literatura.
+    \item Avaliar o desempenho técnico do sistema e a coerência das respostas geradas pelo
+    SLM.
+    \item Realizar testes preliminares de usabilidade com uma amostra reduzida de usuários
+    voluntários, avaliando a aceitação e a viabilidade da solução.
+    \item Implementar uma interface conversacional via WhatsApp para interação com o
+    assistente virtual.
+    \item Criar uma solução de \emph{Machine Learning} (ML) para o aprendizado
+    personalizado dos dados biométricos de cada usuário ao longo do tempo.
+\end{itemize}
+
+Para atingir esses objetivos, foi desenvolvido o sistema \sintonia, composto por uma
+balança de bioimpedância integrada via Bluetooth, um servidor de aplicação responsável
+pelo processamento dos dados, uma interface web progressiva para interação com o usuário e
+uma camada de inteligência artificial voltada à interpretação dos resultados. Os detalhes
+da arquitetura, das tecnologias empregadas e dos mecanismos de processamento são
+apresentados nos capítulos seguintes.

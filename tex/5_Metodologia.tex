@@ -1,0 +1,213 @@
+\section{Tipo de Estudo}
+
+Trata-se de um projeto tecnológico aplicado: o desenvolvimento de uma aplicação para
+adquirir, processar e interpretar dados de composição corporal obtidos por bioimpedância
+segmentada. A proposta integra dispositivos de medição corporal, processamento de dados e
+técnicas de inteligência artificial voltadas à composição corporal.
+
+Além do desenvolvimento do sistema, foram realizados testes funcionais e de integração da
+plataforma, descritos na Seção~\ref{sec:testes}. As avaliações com usuários (usabilidade)
+e a validação preliminar das interpretações geradas pelo modelo de inteligência artificial
+constituem o protocolo planejado e não foram executadas nesta etapa, sendo tratadas como
+trabalho futuro (Capítulo~\ref{cap:trabalhosfuturos}).
+
+\section{Equipamento e Princípio de Funcionamento}
+
+\subsection{Equipamento Utilizado}
+
+O equipamento central do projeto é a balança de bioimpedância CF577BLE, fabricada pela
+Unique Body Weight High. É um analisador corporal pessoal baseado em Análise de Impedância
+Bioelétrica (BIA), capaz de medir a composição corporal de forma segmentada. O equipamento
+foi escolhido pela arquitetura de oito eletrodos e pela variedade de parâmetros corporais
+disponíveis em sua interface de programação. Ao contrário das balanças domésticas comuns,
+a CF577BLE fornece dados segmentados, com análises separadas de membros superiores,
+membros inferiores e tronco. O aparelho também tem conectividade Bluetooth Low Energy
+(BLE), que sincroniza os dados com plataformas externas, característica essencial para a
+integração com o \sintonia.
+
+\subsection{Princípio de Funcionamento da Balança CF577BLE}
+
+O funcionamento da balança baseia-se nos princípios da BIA apresentados na
+Seção~\ref{sec:principios}. Durante a medição, correntes elétricas de baixa intensidade
+são aplicadas ao corpo por oito eletrodos distribuídos entre a plataforma de apoio dos pés
+e um manípulo segurado pelo usuário. Com isso, o equipamento faz análises segmentadas: as
+correntes percorrem membros inferiores, membros superiores e tronco, e o aparelho estima
+separadamente os parâmetros de braços, pernas e tronco, reduzindo limitações comuns nos
+sistemas de apenas quatro eletrodos.
+
+A arquitetura multifrequencial da CF577BLE mede em diferentes frequências, o que dá mais
+sensibilidade na avaliação da água intra e extracelular. A partir dos valores de
+impedância, algoritmos proprietários do \emph{firmware} estimam os indicadores corporais,
+entre eles peso, IMC, frequência cardíaca, taxa metabólica basal, percentual de gordura
+total e segmentado, massa muscular total e segmentada, gordura visceral, massa óssea, água
+corporal total, água intracelular e extracelular, massa proteica, idade corporal e índice
+geral de saúde. Após a aquisição, as informações são transmitidas por BLE. Embora o
+ecossistema original do fabricante (Lefu/Unique Health) sincronize esses dados com a nuvem,
+o \sintonia\ opta por ler a balança diretamente por BLE, sem intermediários.
+
+\subsection{Avaliação Experimental e Adequação da CF577BLE para a População Brasileira}
+
+O trabalho previa uma etapa exploratória para avaliar o comportamento das estimativas da
+CF577BLE em uma amostra preliminar de voluntários brasileiros, verificando a
+compatibilidade dos resultados com modelos descritos na literatura nacional. Essa
+avaliação empírica com voluntários não foi conduzida nesta etapa
+(Capítulo~\ref{cap:trabalhosfuturos}); descrevem-se a seguir o protocolo planejado e os
+modelos efetivamente aplicados no processamento.
+
+A motivação decorre de evidências de vieses sistemáticos em dispositivos de bioimpedância
+quando usados em populações diferentes das de calibração dos algoritmos proprietários,
+o que afeta as estimativas de massa livre de gordura, gordura corporal e distribuição
+hídrica. Os resultados de Wahrlich et al.~\cite{wahrlich2026} são uma das principais
+referências do trabalho: foi empregada a equação multivariada que os autores propõem para
+estimar a FFM, desenvolvida e validada na comparação entre bioimpedância e DXA. Como este
+estudo não dispõe de medições próprias por DXA, a equação é usada como base para processar
+e interpretar os dados da CF577BLE, em uma investigação exploratória de sua aplicabilidade
+em uma plataforma voltada à população brasileira.
+
+A análise comparativa dos dados obtidos frente aos modelos da literatura, para identificar
+diferenças sistemáticas ligadas à população de calibração, às frequências e aos modelos
+proprietários, dependia da coleta com voluntários e não foi realizada nesta etapa,
+permanecendo como trabalho futuro (Capítulo~\ref{cap:trabalhosfuturos}). A investigação de
+ajustes matemáticos adicionais (regressão linear e modelos multivariados) para reduzir
+diferenças específicas entre a CF577BLE e modelos de referência também não foi conduzida,
+ficando registrada como trabalho futuro. Nesta versão, o sistema aplica diretamente a
+equação de Wahrlich et al.~\cite{wahrlich2026}, desenvolvida e validada para a população
+brasileira. Por se tratar de abordagem exploratória e de amostra reduzida, eventuais
+resultados dessa natureza não teriam finalidade diagnóstica nem caráter de validação
+clínica definitiva.
+
+\subsubsection{Avaliação Comparativa com Métodos de Referência}
+
+Considerando as limitações da bioimpedância, estava prevista uma análise comparativa dos
+resultados da CF577BLE com valores de referência da literatura. O objetivo não seria
+validar clinicamente o equipamento, mas verificar a coerência fisiológica das estimativas
+usadas pelo \sintonia. Seriam observados indicadores como massa livre de gordura,
+percentual de gordura corporal, água corporal total e taxa metabólica basal, confrontados
+com modelos publicados. Essa análise permitiria identificar desvios sistemáticos e
+subsidiar futuras estratégias de calibração computacional (Capítulo~\ref{cap:trabalhosfuturos}).
+
+\subsection{Avaliação das Frequências Elétricas e Compatibilidade com Modelos Clínicos}
+
+Equipamentos clínicos muito usados em pesquisa, como a Tanita BC-418, medem em frequências
+próximas de 50~kHz. A CF577BLE emprega arquitetura multifrequencial com medições em
+frequências distintas, incluindo 20~kHz e 100~kHz. Essa diferença pode influenciar as
+estimativas, pois frequências distintas têm sensibilidades diferentes para os
+compartimentos de água intra e extracelular; assim, modelos desenvolvidos para uma
+frequência podem não se comportar igual em dispositivos multifrequenciais.
+
+Quanto à compatibilização entre frequências, foi implementada a interpolação logarítmica
+da impedância medida em 20~kHz e 100~kHz para uma impedância equivalente em 50~kHz
+(Seção~\ref{sec:equacoes}, Equação~\ref{eq:interp50}), o que permite aplicar modelos
+desenvolvidos para 50~kHz. Estratégias adicionais de compatibilização por regressão e
+adaptações inspiradas em arquiteturas de equipamentos comerciais não foram desenvolvidas
+nesta etapa, permanecendo como trabalho futuro (Capítulo~\ref{cap:trabalhosfuturos}). Essas
+estratégias adicionais de compatibilização entre frequências e de calibração computacional
+são retomadas no Capítulo~\ref{cap:trabalhosfuturos}.
+
+\section{Coleta de Dados}
+
+A coleta de dados com usuários voluntários não foi realizada nesta etapa do trabalho; o
+protocolo planejado está reposicionado como trabalho futuro
+(Capítulo~\ref{cap:trabalhosfuturos}). As subseções a seguir resumem o que estava previsto
+e descrevem o tratamento e os aspectos éticos dos dados.
+
+\subsection{Participantes}
+
+A etapa de coleta de dados com usuários voluntários, prevista para validar a solução na
+plataforma \sintonia, não foi conduzida como estudo de campo nesta etapa. O planejamento
+previa uma amostra de conveniência de aproximadamente 15 a 30 usuários, e foi
+reposicionada como trabalho futuro (Capítulo~\ref{cap:trabalhosfuturos}).
+
+\subsection{Procedimento de Coleta}
+
+O procedimento de coleta previsto para esse estudo de campo (cadastro dos participantes,
+leitura via Web Bluetooth e registro dos parâmetros) está descrito no
+Capítulo~\ref{cap:trabalhosfuturos}.
+
+\subsection{Armazenamento e Tratamento dos Dados}
+
+Os dados coletados seriam armazenados em banco estruturado, permitindo construir o
+histórico individual de cada participante. Antes do uso para análises estatísticas ou
+treinamento dos modelos, os dados seriam submetidos a validação, padronização e
+anonimização, removendo informações que permitissem a identificação direta. As informações
+poderiam ser usadas para análise temporal da composição corporal, avaliação de desempenho
+e aperfeiçoamento dos modelos de IA, respeitando princípios de anonimização e uso
+responsável~\cite{etic2024}.
+
+\subsection{Aspectos Éticos e Privacidade}
+
+Como o projeto envolve dados de saúde e composição corporal, seriam adotadas medidas de
+proteção da privacidade e de segurança das informações, seguindo recomendações recentes
+para aplicações de IA em saúde~\cite{etic2024}. Os dados de pesquisa seriam tratados de
+forma anonimizada, com acesso restrito aos pesquisadores, e o armazenamento seguiria
+práticas compatíveis com saúde digital. O \sintonia\ não tem finalidade diagnóstica e não
+substitui avaliação de profissionais de saúde: suas interpretações têm caráter informativo
+e educacional.
+
+\section{Avaliação da Solução Proposta}
+
+A avaliação do \sintonia\ foi planejada em três frentes: usabilidade, desempenho técnico e
+qualidade das interpretações do modelo de IA. Nesta etapa foram executados os testes
+funcionais e de desempenho técnico relatados na Seção~\ref{sec:testes}. As avaliações com
+usuários (escala SUS), a validação por especialistas e a análise sistemática das
+interpretações do SLM, descritas a seguir, correspondem ao protocolo planejado e foram
+reposicionadas como trabalho futuro (Capítulo~\ref{cap:trabalhosfuturos}).
+
+\subsection{Avaliação de Usabilidade}
+
+Como instrumento de avaliação de usabilidade, foi selecionada a escala \emph{System
+Usability Scale} (SUS), amplamente utilizada para avaliação de sistemas
+computacionais~\cite{brooke1996}. O instrumento permite obter indicadores quantitativos
+sobre a percepção dos usuários quanto à facilidade de uso, clareza da interface e
+satisfação geral. Sua aplicação com usuários, porém, não foi realizada nesta etapa
+(Capítulo~\ref{cap:trabalhosfuturos}). Caso essa etapa seja realizada, os resultados
+poderiam identificar oportunidades de melhoria na interface e fornecer evidências sobre a
+aceitação da solução. Por depender de uma amostra de usuários voluntários ainda não
+recrutada, a aplicação do questionário SUS foi reposicionada como trabalho futuro e não
+constitui requisito desta etapa de validação técnica.
+
+\subsection{Avaliação Técnica do Sistema}
+
+A avaliação técnica contemplou a análise do funcionamento dos principais componentes da
+arquitetura proposta, incluindo a leitura da balança via Web Bluetooth, o armazenamento dos
+dados, o processamento das métricas corporais e a geração das interpretações automatizadas
+(Seção~\ref{sec:testes}). Foram observados aspectos como a estabilidade da comunicação, a
+consistência dos dados recebidos, a integridade dos registros armazenados e o tempo de
+processamento. A Figura~\ref{fig:fluxoslm} apresenta o fluxo do SLM no \sintonia.
+
+\figuraplaceholder{Fluxo do SLM no \sintonia}{fig:fluxoslm}
+
+\subsection{Avaliação das Interpretações Geradas pelo SLM}
+
+Para avaliar as interpretações produzidas pelo \emph{Small Language Model}, definiu-se uma
+análise exploratória com base em conceitos e recomendações da literatura sobre
+bioimpedância e composição corporal. Essa avaliação sistemática não foi conduzida nesta
+etapa, sendo reposicionada como trabalho futuro (Capítulo~\ref{cap:trabalhosfuturos}); a
+verificação realizada limitou-se aos testes funcionais descritos na Seção~\ref{sec:testes}.
+A avaliação qualitativa poderá contemplar aspectos como coerência das respostas,
+consistência das recomendações, adequação das interpretações aos parâmetros fornecidos e
+capacidade de identificar padrões relevantes, conforme abordagens de estudos com modelos
+especializados de linguagem~\cite{abdin2024,touvron2024}. Caso essa etapa seja realizada,
+as análises verificariam a aderência das respostas às regras de interpretação e às
+referências científicas adotadas.
+
+\subsection{Validação por Especialistas}
+
+A validação humana especializada é recomendada em aplicações de IA voltadas à saúde,
+especialmente em sistemas que produzem interpretações direcionadas aos
+usuários~\cite{etic2024}. O escopo desta etapa concentra-se na validação técnica da
+plataforma, na implementação dos modelos de processamento biométrico e na verificação da
+aderência das interpretações às referências adotadas. Como aprofundamento futuro, poderá
+ser realizada a submissão das interpretações à avaliação de profissionais de saúde,
+educação física e nutrição, com critérios como relevância clínica, clareza das explicações,
+consistência científica e adequação das recomendações. Por não constituir objetivo
+principal desta fase, a validação por especialistas é considerada evolução futura do
+\sintonia.
+
+\subsection{Indicadores de Desempenho}
+
+Para complementar a avaliação, foram analisados indicadores quantitativos de desempenho do
+sistema, incluindo tempo médio de resposta, disponibilidade da plataforma, taxa de
+processamento bem-sucedido das medições e consistência das interpretações
+(Seção~\ref{sec:testes}). Esses indicadores permitem verificar a viabilidade técnica da
+arquitetura proposta e subsidiar futuras evoluções da plataforma.

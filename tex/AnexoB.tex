@@ -1,0 +1,22 @@
+A seguir, dois exemplos do formato de base de conhecimento usado para orientar as
+interpretações do \emph{Small Language Model}. Cada registro associa uma instrução, os dados
+de entrada e a saída esperada.
+
+\begin{verbatim}
+Exemplo 1
+{
+  "instruction": "Analise os dados corporais.",
+  "input": "Sexo: Feminino, Idade: 35, Peso: 82kg,
+            Gordura: 38%, Gordura Visceral: 12",
+  "output": "Os valores indicam excesso de gordura corporal
+             e gordura visceral elevada..."
+}
+
+Exemplo 2
+{
+  "instruction": "Interprete a composição corporal.",
+  "input": "Sexo: Masculino, Idade: 28, Peso: 75kg,
+            Massa Muscular: 34kg",
+  "output": "A massa muscular encontra-se acima da média..."
+}
+\end{verbatim}

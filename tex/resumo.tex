@@ -1,0 +1,17 @@
+Este trabalho apresenta o \sintonia, um aplicativo web progressivo (\emph{Progressive
+Web App} --- PWA) para aquisição e interpretação de dados de composição corporal a
+partir de uma balança de bioimpedância elétrica de oito eletrodos (CF577BLE).
+Diferentemente dos aplicativos comerciais, que apenas exibem os índices calculados
+pelos algoritmos proprietários do aparelho, o sistema lê a impedância bruta
+diretamente da balança por meio da API Web Bluetooth e recalcula a composição
+corporal com equações científicas abertas, validadas contra a absorciometria por
+dupla emissão de raios X (DXA), como as propostas por Wahrlich et al.\ (2026),
+Janssen et al.\ (2000) e Wang et al.\ (1999). Para reduzir o viés inerente à
+bioimpedância, o sistema registra o contexto de cada medição por meio de uma
+anamnese e aplica um modelo estatístico de correção \emph{within-user}, com efeitos
+mistos e quantificação de incerteza. A interpretação dos resultados em linguagem
+natural é realizada pela assistente virtual Vida, baseada no \emph{Small Language
+Model} Qwen 2.5 (7B) executado localmente por meio do Ollama, o que preserva a
+privacidade dos dados de saúde e dispensa serviços de nuvem de terceiros. Os
+resultados indicam que é viável transformar dados brutos de bioimpedância em
+informações claras e cientificamente fundamentadas.

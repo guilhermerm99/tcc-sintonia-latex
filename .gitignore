@@ -1,0 +1,21 @@
+# Artefatos de compilação LaTeX (o Overleaf gera isso; não versionar)
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.dvi
+*.idx
+*.ilg
+*.ind
+*.nav
+*.snm
+*.vrb
+*.xdv
+monografia.pdf

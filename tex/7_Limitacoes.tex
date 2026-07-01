@@ -1,0 +1,58 @@
+\begin{itemize}
+    \item As medições de bioimpedância são sensíveis a fatores fisiológicos e ambientais,
+    como hidratação, alimentação recente e atividade física. O \sintonia\ trata esses
+    fatores diretamente: registra-os na anamnese e os desconta com o modelo de correção
+    \emph{within-user} (Seção~\ref{sec:correcao}), o que é um dos diferenciais do trabalho.
+    Permanecem como limitação os fatores que a anamnese não captura, como o posicionamento
+    do usuário e a temperatura da pele, e o fato de a correção reduzir o viés sem
+    eliminá-lo, ainda sem validação contra DXA.
+
+    \item O funcionamento da plataforma depende da comunicação Bluetooth Low Energy (BLE)
+    entre o navegador e a balança, da disponibilidade da API Web Bluetooth e do protocolo
+    BLE do dispositivo; mudanças de \emph{firmware} do fabricante que alterem esse protocolo
+    podem exigir adaptações. Por outro lado, por ler a balança diretamente por BLE, o
+    \sintonia\ não depende dos serviços em nuvem nem da infraestrutura do fabricante
+    (Lefu/Unique Health), ao contrário do aplicativo original.
+
+    \item A implementação atual foi desenvolvida e validada com a balança CF577BLE. A
+    compatibilidade com outros modelos ou fabricantes não foi avaliada nesta etapa.
+
+    \item A comunicação direta entre a aplicação web e dispositivos Bluetooth depende da API
+    Web Bluetooth, atualmente suportada apenas por navegadores compatíveis, como Google
+    Chrome e Microsoft Edge, o que pode limitar o uso em alguns ambientes.
+
+    \item Os testes desta etapa usaram um número reduzido de medições, feitas pelos próprios
+    autores, o que limita a generalização dos resultados para diferentes perfis
+    populacionais.
+
+    \item No estudo de campo previsto (Capítulo~\ref{cap:trabalhosfuturos}), pode haver viés
+    de autosseleção, já que a participação dependerá do interesse espontâneo dos usuários.
+
+    \item O trabalho não inclui medições próprias por absorciometria por dupla emissão de
+    raios X (DXA), referência para avaliação da composição corporal. Por isso, as
+    comparações se baseiam em modelos e equações da literatura e não constituem validação
+    clínica direta da solução.
+
+    \item A estimativa da impedância equivalente em 50~kHz é feita por interpolação
+    log-linear a partir das medições em 20~kHz e 100~kHz. Embora compatibilize os dados da
+    CF577BLE com modelos desenvolvidos para 50~kHz, é uma aproximação matemática sujeita a
+    incertezas adicionais.
+
+    \item Os mecanismos de correção e contextualização das medições foram pensados para
+    reduzir variações ligadas a hidratação, alimentação e atividade física. Nesta etapa,
+    porém, têm caráter exploratório e ainda precisam de validação com conjuntos de dados
+    maiores e acompanhamento longitudinal.
+
+    \item Embora o sistema use um SLM especializado para gerar as interpretações, não foram
+    realizadas nesta etapa técnicas de \emph{fine-tuning} supervisionado ou treinamento do
+    modelo com bases próprias. A especialização foi feita por regras de interpretação,
+    engenharia de \emph{prompt} e integração com modelos biométricos da literatura.
+
+    \item Da mesma forma, não foi feita a utilização efetiva de bases sintéticas para
+    treinamento ou ajuste do modelo. Estratégias com dados sintéticos poderão ser
+    investigadas em estudos futuros.
+
+    \item As interpretações da assistente se baseiam na literatura científica, nas regras de
+    interpretação e nos modelos biométricos definidos, têm caráter informativo e educacional
+    e não substituem avaliação clínica de profissionais habilitados.
+\end{itemize}

@@ -1,0 +1,32 @@
+O uso de dispositivos vestíveis e de balanças inteligentes ampliou o monitoramento da
+composição corporal fora de ambientes clínicos. Entre esses dispositivos estão as
+balanças de bioimpedância de oito eletrodos, que estimam de forma segmentada
+parâmetros como massa muscular, percentual de gordura, gordura visceral, idade
+corporal e metabolismo basal.
+
+Os aplicativos que acompanham essas balanças costumam mostrar apenas os números, sem
+interpretá-los nem traduzi-los em recomendações para usuários leigos. A inteligência
+artificial (IA) pode preencher essa lacuna, transformando os dados em interpretações
+personalizadas e em apoio ao acompanhamento do progresso.
+
+Este trabalho propõe um aplicativo com assistente virtual que interpreta
+automaticamente os dados da balança CF577BLE (Figura~\ref{fig:balanca}). A leitura é
+feita direto do dispositivo pelo navegador, pela API Web Bluetooth, sem depender de
+serviços em nuvem. A ideia inicial era usar um modelo de linguagem de grande porte
+(\emph{Large Language Model} --- LLM), mas testes posteriores indicaram que um
+\emph{Small Language Model} (SLM) especializado e executado localmente atenderia
+melhor. O modelo adotado foi o Qwen 2.5 (7B), que interpreta as métricas de
+bioimpedância localmente e mantém os dados privados.
+
+O objetivo é transformar os dados brutos em interpretações claras e recomendações
+personalizadas, tornando o acompanhamento da saúde mais útil e seguro para o usuário.
+
+\figuraplaceholder{Balança de bioimpedância modelo CF577BLE}{fig:balanca}
+
+O desenvolvimento do \sintonia\ resultou em uma plataforma funcional que lê a
+bioimpedância pela Web Bluetooth, calcula os indicadores corporais com equações
+validadas e gera interpretações em linguagem natural. O trabalho mostrou que é viável
+usar um \emph{Small Language Model} local, como o Qwen 2.5 (7B), para ajudar o usuário
+a entender sua composição corporal sem enviar dados de saúde a serviços externos.
+Assim, as informações da balança ficam mais fáceis de interpretar, e o projeto serve
+de base para estudos futuros em saúde digital e composição corporal.

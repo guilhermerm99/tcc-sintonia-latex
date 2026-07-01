@@ -1,0 +1,15 @@
+This work presents \sintonia, a progressive web application (PWA) for acquiring and
+interpreting body composition data from an eight-electrode bioelectrical impedance
+scale (CF577BLE). Unlike commercial apps, which only display the indices computed by
+the device's proprietary algorithms, the system reads the raw impedance directly from
+the scale through the Web Bluetooth API and recomputes body composition using open
+scientific equations validated against dual-energy X-ray absorptiometry (DXA), such
+as those by Wahrlich et al.\ (2026), Janssen et al.\ (2000) and Wang et al.\ (1999).
+To mitigate the bias inherent to bioimpedance, the system records the context of each
+measurement through a short questionnaire and applies a within-user statistical
+correction model, with mixed effects and uncertainty quantification. Natural-language
+interpretation is delivered by the virtual assistant Vida, based on the Qwen 2.5 (7B)
+Small Language Model running locally via Ollama, which preserves the privacy of health
+data and removes the dependence on third-party cloud services. The results indicate
+that it is feasible to turn raw bioimpedance data into clear, scientifically grounded
+information.
