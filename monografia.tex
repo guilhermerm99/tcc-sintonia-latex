@@ -14,8 +14,7 @@
 \orientador{\prof[a] \dr[a] Cláudia Jacy Barenco Abbas}{ENE/UnB}%
 % \coorientador{\prof \dr Nome}{Departamento/Instituição}
 
-% ATENÇÃO: preencher com o(a) coordenador(a) do curso de Engenharia da Computação:
-\coordenador[a]{\prof \dr Nome do Coordenador}{FGA/UnB}%
+% Os coordenadores dos dois cursos são definidos mais abaixo (folha de aprovação).
 
 \diamesano{14}{julho}{2026}% data da defesa: 14/07/2026, 14h
 
@@ -33,6 +32,68 @@
   José Gutembergue Lima Rodrigues\\{\normalsize Engenharia de Redes de Comunicação}%
 }%
 \gdef\@nomecurso{Curso de Engenharia da Computação e do Curso de Engenharia de Redes de Comunicação}%
+% Incluir o ENE no departamento (curso do coautor):
+\gdef\@departamento{Departamento de Ciência da Computação e Departamento de Engenharia Elétrica}%
+\makeatother
+
+% Coordenador metadados (mantido; a folha de aprovação abaixo lista os dois cursos):
+\coordenador{\prof \dr Guilherme Novaes Ramos}{CIC/UnB}%
+
+% Folha de aprovação redefinida para DOIS coordenadores (um por curso).
+% Reproduz a definição original da classe UnB-CIC, trocando apenas o bloco final
+% do coordenador. Demais elementos idênticos à classe.
+\makeatletter
+\renewcommand\folhaaprovacao{%
+	\begin{paginatitulo}%
+		\onehalfspacing%
+		\begin{center}%
+			\@logo\vfill%
+			\@printfulltitle\vfill%
+			{\large\@author}\vfill%
+			\@mododeescrita\ %
+			\if@posgraduacao%
+				\if@ppca%
+					apresentada como requisito parcial para %
+					\if@qualificacao{qualificação}\else{conclus\~ao}\fi~do\\%
+				\else%
+					apresentada como requisito parcial para\\
+					\if@qualificacao{qualificação}\else{conclus\~ao}\fi~do %
+				\fi%
+				\@nomecurso\ em \@nomeDoPrograma%
+			\else%
+				apresentada como requisito parcial\\
+				para conclus\~ao do \@nomecurso%
+			\fi%
+			\vfill%
+			\@nomeorientador\ (\@sexoorientador)\\
+			\@filiorientador\\[1cm]
+			\if@quintomembro%
+				\begin{tabular}{cc}
+					\@nomedois & \@nometres\\
+					\@filidois & \@filitres\\[1cm]%
+					\@nomequatro & \@nomecinco\\%
+					\@filiquatro & \@filicinco%
+				\end{tabular}\\[1cm]
+			\else%
+				\begin{tabular}{cc}
+					\@nomedois & \@nometres\\
+					\@filidois & \@filitres%
+				\end{tabular}\\[1cm]
+				\if@quartomembro%
+					\@nomequatro\\%
+					\@filiquatro\\[1cm]
+				\fi%
+			\fi%
+			Prof.\ Dr.\ Guilherme Novaes Ramos\\
+			Coordenador do Curso de Engenharia da Computação\\[.8cm]
+			Prof.\ Dr.\ João José Costa Gondim\\
+			Coordenador do Curso de Engenharia de Redes de Comunicação%
+			\vfill%
+			{\large \@cidade, \@dia\ de \@mes\ de \@ano}
+		\end{center}%
+		\defaultspacing%
+	\end{paginatitulo}%
+}%
 \makeatother
 
 \titulo{Desenvolvimento de Aplicativo com Assistente Virtual para Captura e
