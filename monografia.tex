@@ -25,6 +25,16 @@
 \autor{Guilherme Ribeiro de}{Macedo}%
 \coautor{José Gutembergue Lima}{Rodrigues}%
 
+% Autores de cursos diferentes: cada um com o seu curso na capa/folha de rosto.
+% (\autor e \coautor acima são mantidos para a ficha catalográfica.)
+\makeatletter
+\author{%
+  Guilherme Ribeiro de Macedo\\{\normalsize Engenharia da Computação}\\[.6cm]%
+  José Gutembergue Lima Rodrigues\\{\normalsize Engenharia de Redes de Comunicação}%
+}%
+\gdef\@nomecurso{Curso de Engenharia da Computação e do Curso de Engenharia de Redes de Comunicação}%
+\makeatother
+
 \titulo{Desenvolvimento de Aplicativo com Assistente Virtual para Captura e
 Interpretação de Dados de Bioimpedância Utilizando Tecnologias Bluetooth e
 Small Language Models (SLMs)}%
