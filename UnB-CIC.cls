@@ -909,7 +909,7 @@
 \newcommand{\@conteudoPosTextual}{%
 	\@PosTextualNaoInclusofalse%
     \postextual%
-	\bibliographystyle{babunsrt}%
+	\bibliographystyle{babplain}%  (alfabético por autor; era babunsrt = ordem de citação)
     \bibliography{bibliografia}%
 }%
 
