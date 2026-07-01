@@ -438,6 +438,28 @@ funciona; não é validação clínica, que dependerá de medições reais por D
     \bottomrule
 }
 
+O modelo de correção \emph{within-user} (Seção~\ref{sec:correcao}) também foi verificado por
+um estudo de simulação. Para um usuário, foram geradas medições com um viés de confundidor
+conhecido injetado na impedância de 50~kHz (água, exercício e não-jejum), incluindo medições
+em condições ideais (linha de base) e medições confundidas. O modelo recuperou o viés de cada
+fator (Tabela~\ref{tab:correcao}) e devolveu a série corrigida próxima da linha de base do
+usuário: o erro médio da impedância em relação à base caiu de 8,3~$\Omega$ (sem correção) para
+0,7~$\Omega$ (com correção). Como consequência, a massa livre de gordura estimada, que oscilava
+entre 62,3 e 65,0~kg conforme o contexto da medição, estabilizou em torno de 63,8~kg após a
+correção, e o percentual de gordura, entre 20,8\% e 24,0\%, convergiu para cerca de 22,2\%. Isso
+demonstra o funcionamento do Estágio~2 de ponta a ponta; com medições reais na balança, o mesmo
+pipeline alimenta a série ``medido vs corrigido'' e a banda de confiança do gráfico de evolução.
+
+\tabela{Estudo de simulação da correção \emph{within-user}: viés injetado por confundidor e viés recuperado pelo modelo (impedância de 50~kHz)}{tab:correcao}{lcc}{%
+    \toprule
+    Confundidor & Viés injetado ($\Omega$) & Viés recuperado ($\Omega$) \\
+    \midrule
+    Não estava em jejum & $+8{,}0$  & $+9{,}1$  \\
+    Ingeriu água        & $-18{,}0$ & $-16{,}0$ \\
+    Exercício recente    & $+25{,}0$ & $+27{,}1$ \\
+    \bottomrule
+}
+
 Esses testes, ainda que preliminares e conduzidos com um número reduzido de medições,
 demonstraram o funcionamento integrado dos módulos do \sintonia\ e a viabilidade técnica da
 solução. A avaliação quantitativa com usuários e a validação por especialistas permanecem
