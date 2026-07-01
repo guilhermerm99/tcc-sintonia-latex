@@ -175,7 +175,31 @@ dados, o processamento das métricas corporais e a geração das interpretaçõe
 consistência dos dados recebidos, a integridade dos registros armazenados e o tempo de
 processamento. A Figura~\ref{fig:fluxoslm} apresenta o fluxo do SLM no \sintonia.
 
-\figuraplaceholder{Fluxo do SLM no \sintonia}{fig:fluxoslm}
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}[
+        node distance=6mm,
+        proc/.style={draw, rounded corners, align=center, text width=.80\linewidth,
+                     inner sep=6pt, font=\small},
+        loc/.style={proc, fill=green!8},
+        seta/.style={-{Latex[length=2.5mm]}, thick},
+    ]
+        \node[proc] (in) {\textbf{Entrada} \\ indicadores biométricos calculados, contexto da anamnese e histórico do usuário};
+        \node[proc, below=of in] (prompt) {\textbf{Montagem do \emph{prompt}} \\ \emph{system prompt} (persona ``Vida'') $+$ regras de interpretação fundamentadas na literatura $+$ dados da medição};
+        \node[loc, below=of prompt] (inf) {\textbf{Inferência local} \\ SLM Qwen 2.5 (7B) via Ollama, em servidor com GPU --- os dados de saúde não saem do servidor (LGPD)};
+        \node[proc, below=of inf] (pos) {\textbf{Pós-processamento} \\ trava de idioma (português), remoção de emojis e de notação não renderizável e verificação de procedência dos dados};
+        \node[proc, below=of pos] (out) {\textbf{Saída} \\ interpretação em linguagem natural, apresentada no aplicativo web ou no WhatsApp};
+        \draw[seta] (in) -- (prompt);
+        \draw[seta] (prompt) -- (inf);
+        \draw[seta] (inf) -- (pos);
+        \draw[seta] (pos) -- (out);
+    \end{tikzpicture}
+    \caption{Fluxo do \emph{Small Language Model} no \sintonia. A especialização é feita por
+    engenharia de \emph{prompt} e regras de interpretação, com inferência local e sem
+    \emph{fine-tuning} do modelo (o treinamento supervisionado é tratado como trabalho futuro,
+    Capítulo~\ref{cap:trabalhosfuturos}).}
+    \label{fig:fluxoslm}
+\end{figure}
 
 \subsection{Avaliação das Interpretações Geradas pelo SLM}
 

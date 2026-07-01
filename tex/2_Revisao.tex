@@ -134,7 +134,40 @@ direito com cerca de 240~$\Omega$. O tronco é a região de menor resistência, 
 volume de fluidos e tecidos condutores, enquanto os membros têm resistência relativa
 maior.
 
-\figuraplaceholder{Modelo de resistências do corpo humano utilizado na CF577BLE}{fig:resistencias}
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}[
+        seg/.style={very thick, gray!60!black},
+        lab/.style={draw, rounded corners, fill=blue!6, font=\footnotesize,
+                    align=center, inner sep=3pt, text width=2.4cm},
+    ]
+        % cabeça
+        \draw[seg, fill=gray!12] (0,4.5) circle (0.42);
+        % tronco
+        \coordinate (ombro)   at (0,3.85);
+        \coordinate (quadril) at (0,1.7);
+        \draw[seg] (ombro) -- (quadril);
+        % braços
+        \draw[seg] (0,3.6) -- (-2,2.8);
+        \draw[seg] (0,3.6) -- (2,2.8);
+        % pernas
+        \draw[seg] (quadril) -- (-1,-0.3);
+        \draw[seg] (quadril) -- (1,-0.3);
+        % pés
+        \draw[seg] (-1.25,-0.3) -- (-0.75,-0.3);
+        \draw[seg] (0.75,-0.3) -- (1.25,-0.3);
+        % rótulos
+        \node[lab] at (-3.3,3.2)  {Membro superior esquerdo\\ 300~$\Omega$};
+        \node[lab] at (3.3,3.2)   {Membro superior direito\\ 300~$\Omega$};
+        \node[lab] at (2.1,1.9)   {Tronco\\ 24~$\Omega$};
+        \node[lab] at (-2.6,-0.1) {Membro inferior esquerdo\\ 240~$\Omega$};
+        \node[lab] at (2.6,-0.1)  {Membro inferior direito\\ 240~$\Omega$};
+    \end{tikzpicture}
+    \caption{Modelo de resistências segmentares do corpo humano utilizado na CF577BLE. O
+    tronco tem a menor resistência, pelo maior volume de fluidos e tecidos condutores,
+    enquanto os membros apresentam resistência relativa maior.}
+    \label{fig:resistencias}
+\end{figure}
 
 Os dados são processados por um algoritmo proprietário, em geral chamado Body270 ou
 Body270S, que usa um modelo de quatro compartimentos corporais (gordura, água, proteína
