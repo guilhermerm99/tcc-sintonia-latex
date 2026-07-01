@@ -41,9 +41,8 @@
 % Coordenador metadados (mantido; a folha de aprovação abaixo lista os dois cursos):
 \coordenador{\prof \dr Guilherme Novaes Ramos}{CIC/UnB}%
 
-% Folha de aprovação redefinida para DOIS coordenadores (um por curso).
-% Reproduz a definição original da classe UnB-CIC, trocando apenas o bloco final
-% do coordenador. Demais elementos idênticos à classe.
+% Folha de aprovação redefinida para dois coordenadores (um por curso).
+% É a folha de aprovação da classe UnB-CIC com apenas o bloco do coordenador alterado.
 \makeatletter
 \renewcommand\folhaaprovacao{%
 	\begin{paginatitulo}%
@@ -107,23 +106,12 @@ Small Language Models (SLMs)}%
 
 \newcommand{\sintonia}{\mbox{SintonIA}}%
 
-% Placeholder de figura (compila sem arquivo de imagem). Ao inserir a imagem real
-% no Overleaf, troque \figuraplaceholder{legenda}{label} por:
-%   \figura{figuras/arquivo}{legenda}{label}{width=.8\linewidth}
-\newcommand{\figuraplaceholder}[2]{%
-  \begin{figure}[!ht]%
-    \centering%
-    \fbox{\parbox[c][3.5cm][c]{.8\linewidth}{\centering\itshape [Inserir imagem] #1}}%
-    \caption{#1.}\label{#2}%
-  \end{figure}%
-}%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Texto
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}%
-    % Referências que constavam da lista original mas não são citadas diretamente no
-    % texto. O \nocite garante que apareçam na bibliografia. Remova as que não quiser.
+    % Referências não citadas diretamente no texto; o \nocite as inclui na
+    % bibliografia. Remova as que não quiser.
     \nocite{ajay2025,dettmers2023,hu2021,unsloth2025,omron,ottoboni,smartscales,xiaomi,shao2021,shcherbina2017}%
 
     \capitulo{1_Introducao}{Introdução}%
