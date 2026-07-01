@@ -1,0 +1,39 @@
+Este trabalho apresentou o \sintonia, um aplicativo web progressivo que lê a impedância
+bruta de uma balança de bioimpedância CF577BLE por Bluetooth, recalcula a composição
+corporal com equações científicas abertas e interpreta os resultados em linguagem natural
+por meio de uma assistente virtual baseada em um \emph{Small Language Model} executado
+localmente. Diferentemente dos aplicativos comerciais, que apenas exibem os índices dos
+algoritmos proprietários do aparelho, a solução mantém o controle sobre o cálculo e sobre
+os dados, favorecendo a transparência e a privacidade.
+
+Os objetivos propostos foram, em sua maior parte, alcançados. Foi desenvolvido um protótipo
+funcional com \emph{backend}, interface web progressiva e integração com a balança via Web
+Bluetooth; foram implementados o registro de contexto por anamnese, o processamento
+biométrico com as equações de Wahrlich et al.\ (2026), Janssen et al.\ (2000) e Wang et al.\
+(1999), a classificação clínica com fontes e a assistente Vida com regras de interpretação e
+engenharia de \emph{prompt}. Os testes funcionais confirmaram o funcionamento integrado dos
+módulos, e os dois modelos estatísticos do sistema foram verificados por estudos de
+simulação: a correção \emph{within-user} recuperou o viés de confundidor injetado e
+estabilizou a série corrigida, e a calibração para o padrão DXA aprendeu um índice individual
+que aproximou a estimativa da referência, reduzindo o erro na validação cruzada.
+
+O principal diferencial do \sintonia\ está em tratar o que os aplicativos convencionais
+ignoram: o contexto fisiológico de cada medição. Ao registrar jejum, hidratação, exercício e
+período menstrual e descontar o viés desses fatores por um modelo estatístico, o sistema
+entrega uma leitura mais estável e honesta da evolução corporal, acompanhada de uma banda de
+incerteza. A execução local do modelo de linguagem, por sua vez, mantém os dados de saúde no
+próprio servidor, alinhando a solução às exigências da LGPD e às diretrizes de uso de
+inteligência artificial em saúde.
+
+O trabalho também tem limitações claras. A avaliação com usuários voluntários, a aplicação da
+escala de usabilidade e a validação por especialistas não foram conduzidas nesta etapa, e o
+sistema ainda não dispõe de medições próprias por DXA para calibração com dados reais. Esses
+pontos, detalhados no Capítulo~\ref{cap:trabalhosfuturos}, constituem a continuidade
+natural do projeto: conduzir o estudo de campo, coletar pares CF577BLE e DXA para ativar a
+calibração por pessoa e ampliar a base de medições para robustecer os modelos de correção.
+
+Em síntese, o \sintonia\ demonstrou a viabilidade técnica de integrar bioimpedância,
+processamento científico aberto e inteligência artificial local em uma única plataforma de
+acompanhamento da composição corporal. Mais do que exibir números, o sistema os contextualiza,
+corrige e explica, oferecendo uma base sólida para as evoluções previstas e para futuras
+pesquisas em saúde digital.
