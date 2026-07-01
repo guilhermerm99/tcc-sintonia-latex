@@ -186,7 +186,7 @@ processamento. A Figura~\ref{fig:fluxoslm} apresenta o fluxo do SLM no \sintonia
     ]
         \node[proc] (in) {\textbf{Entrada} \\ indicadores biométricos calculados, contexto da anamnese e histórico do usuário};
         \node[proc, below=of in] (prompt) {\textbf{Montagem do \emph{prompt}} \\ \emph{system prompt} (persona ``Vida'') $+$ regras de interpretação fundamentadas na literatura $+$ dados da medição};
-        \node[loc, below=of prompt] (inf) {\textbf{Inferência local} \\ SLM Qwen 2.5 (7B) via Ollama, em servidor com GPU --- os dados de saúde não saem do servidor (LGPD)};
+        \node[loc, below=of prompt] (inf) {\textbf{Inferência local} \\ SLM Qwen 2.5 (7B) via Ollama, em servidor com GPU; os dados de saúde não saem do servidor (LGPD)};
         \node[proc, below=of inf] (pos) {\textbf{Pós-processamento} \\ trava de idioma (português), remoção de emojis e de notação não renderizável e verificação de procedência dos dados};
         \node[proc, below=of pos] (out) {\textbf{Saída} \\ interpretação em linguagem natural, apresentada no aplicativo web ou no WhatsApp};
         \draw[seta] (in) -- (prompt);

@@ -108,7 +108,7 @@ A assistente virtual Vida é a interface conversacional do \sintonia. Implementa
 \emph{Small Language Model} executado localmente, ela interpreta os resultados dos módulos
 de processamento biométrico e os apresenta ao usuário em linguagem natural, de forma
 acessível e contextualizada. A Vida não realiza os cálculos de composição corporal nem os
-ajustes das medições --- essas etapas ficam nos módulos de processamento e correção. A
+ajustes das medições; essas etapas ficam nos módulos de processamento e correção. A
 assistente atua depois, usando os indicadores calculados, o histórico e o contexto para
 gerar explicações, responder dúvidas e auxiliar no acompanhamento. Além da aplicação web, a
 assistente pode ser acessada pelo WhatsApp, onde o usuário consulta medições recentes, tira
@@ -176,8 +176,8 @@ O Qwen 2.5 é uma família de modelos de linguagem de arquitetura \emph{Transfor
 apenas-decodificadora (\emph{decoder-only}), desenvolvida pela equipe Qwen do Alibaba
 Group~\cite{qwen2024,bai2023}. A variante utilizada tem cerca de 7,6 bilhões de parâmetros e
 usa técnicas modernas de modelagem de linguagem, como atenção com agrupamento de consultas
-(\emph{Grouped-Query Attention} --- GQA), codificação posicional rotativa (\emph{Rotary
-Position Embedding} --- RoPE), funções de ativação SwiGLU e normalização RMSNorm, com
+(\emph{Grouped-Query Attention}, GQA), codificação posicional rotativa (\emph{Rotary
+Position Embedding}, RoPE), funções de ativação SwiGLU e normalização RMSNorm, com
 suporte a contextos longos (dezenas de milhares de \emph{tokens}). O modelo foi
 pré-treinado em um corpus multilíngue de larga escala (da ordem de 18 trilhões de
 \emph{tokens}), o que lhe dá bom desempenho em português, e depois ajustado por instruções
@@ -304,7 +304,7 @@ a Equação~\ref{eq:interp50}:
 
 \equacao{eq:interp50}{Z_{50} = Z_{20} \cdot \left(\dfrac{Z_{100}}{Z_{20}}\right)^{\frac{\ln(50/20)}{\ln(100/20)}}}
 
-A partir desse valor calcula-se o Índice de Resistência (\emph{Resistance Index} --- RI),
+A partir desse valor calcula-se o Índice de Resistência (\emph{Resistance Index}, RI),
 definido pela relação entre o quadrado da estatura e a impedância equivalente,
 Equação~\ref{eq:ri}:
 
@@ -462,10 +462,9 @@ funciona; não é validação clínica, que dependerá de medições reais por D
 
 O treinamento desse modelo de calibração é feito a partir de um arquivo CSV com pares
 CF577BLE e DXA da mesma pessoa (sexo, idade, estatura, massa, impedância e a FFM medida por
-DXA) --- o mesmo formato que receberá os dados reais quando forem coletados. A partir desses
+DXA), o mesmo formato que receberá os dados reais quando forem coletados. A partir desses
 pares, o modelo aprende um índice de calibração $k$ individual, que é aplicado na fórmula do
-índice de resistência. No estudo de simulação (30 pares), os homens --- alvo do viés injetado
---- receberam $k \approx 0{,}94$ e as mulheres $k \approx 1{,}0$, e a FFM estimada aproximou-se
+índice de resistência. No estudo de simulação (30 pares), os homens (alvo do viés injetado) receberam $k \approx 0{,}94$ e as mulheres $k \approx 1{,}0$, e a FFM estimada aproximou-se
 da referência: o erro absoluto médio em relação ao DXA caiu de cerca de 1,3~kg (sem calibração)
 para 0,3~kg (com calibração). Assim, quando houver dados de DXA reais, basta substituir o CSV
 para que a calibração por pessoa passe a valer, sem qualquer outra alteração no sistema.
