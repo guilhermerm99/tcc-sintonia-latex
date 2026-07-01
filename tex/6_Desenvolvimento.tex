@@ -438,6 +438,16 @@ funciona; não é validação clínica, que dependerá de medições reais por D
     \bottomrule
 }
 
+O treinamento desse modelo de calibração é feito a partir de um arquivo CSV com pares
+CF577BLE e DXA da mesma pessoa (sexo, idade, estatura, massa, impedância e a FFM medida por
+DXA) --- o mesmo formato que receberá os dados reais quando forem coletados. A partir desses
+pares, o modelo aprende um índice de calibração $k$ individual, que é aplicado na fórmula do
+índice de resistência. No estudo de simulação (30 pares), os homens --- alvo do viés injetado
+--- receberam $k \approx 0{,}94$ e as mulheres $k \approx 1{,}0$, e a FFM estimada aproximou-se
+da referência: o erro absoluto médio em relação ao DXA caiu de cerca de 1,3~kg (sem calibração)
+para 0,3~kg (com calibração). Assim, quando houver dados de DXA reais, basta substituir o CSV
+para que a calibração por pessoa passe a valer, sem qualquer outra alteração no sistema.
+
 O modelo de correção \emph{within-user} (Seção~\ref{sec:correcao}) também foi verificado por
 um estudo de simulação. Para um usuário, foram geradas medições com um viés de confundidor
 conhecido injetado na impedância de 50~kHz (água, exercício e não-jejum), incluindo medições
