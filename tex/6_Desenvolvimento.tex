@@ -199,6 +199,29 @@ orientam a geração das respostas. Essa estratégia produz interpretações ali
 objetivos da aplicação sem \emph{fine-tuning} supervisionado, o que reduz a complexidade do
 desenvolvimento e facilita atualizar a base de conhecimento depois.
 
+Na prática, a engenharia de \emph{prompt} do \sintonia\ combina três elementos. O primeiro é
+um \emph{system prompt} extenso que define a persona ``Vida'', delimita o escopo (apenas
+composição corporal e bioimpedância), impõe regras éticas (não emitir diagnóstico nem
+recomendar medicamentos e orientar a busca por profissionais em casos extremos) e fixa o
+estilo das respostas (português do Brasil, conciso, sem emojis). O segundo são os indicadores
+biométricos já calculados pelo sistema, a anamnese e o histórico, injetados como contexto da
+conversa. O terceiro são as regras de interpretação fundamentadas na literatura, que orientam
+o que destacar em cada faixa de resultado. Complementam essa camada garantias implementadas
+em código, independentes do modelo, como a trava de idioma, que regenera a resposta em
+português caso o modelo desvie, e a verificação de procedência, que impede a assistente de
+atribuir ao usuário informações que ele não forneceu.
+
+A opção pela engenharia de \emph{prompt} em vez do \emph{fine-tuning} decorre do estágio do
+projeto: o ajuste supervisionado exigiria um conjunto de exemplos de interpretação revisados
+por especialistas, ainda não disponível, além de infraestrutura de treinamento e de validação
+para evitar que o modelo aprendesse erros de domínio. A engenharia de \emph{prompt}, por sua
+vez, tem custo de treinamento nulo, é transparente e pode ser atualizada apenas editando as
+regras. Como evolução futura (Capítulo~\ref{cap:trabalhosfuturos}), o \emph{fine-tuning} com
+técnicas eficientes como o QLoRA, apoiado em bases sintéticas validadas, poderia aumentar a
+consistência das respostas e reduzir a latência, já que parte do conhecimento do domínio
+passaria a residir no próprio modelo, permitindo \emph{prompts} mais curtos e, eventualmente,
+um modelo base menor.
+
 \subsection{Arquitetura de Inferência}
 
 O modelo especializado foi incorporado ao \sintonia\ como componente responsável pela
