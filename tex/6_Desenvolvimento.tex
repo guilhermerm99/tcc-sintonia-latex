@@ -12,7 +12,7 @@ científicas do projeto.
 O \sintonia\ foi concebido como uma plataforma integrada para aquisição, processamento e
 interpretação de dados de composição corporal obtidos por bioimpedância segmentada. A
 arquitetura combina a leitura direta da balança por Bluetooth, o processamento em servidor
-próprio e uma inteligência artificial especializada executada localmente, gerando análises
+próprio e uma inteligência artificial executada localmente, gerando análises
 personalizadas sem depender de serviços em nuvem de terceiros.
 
 A solução tem quatro módulos principais: o dispositivo de aquisição (balança CF577BLE),
@@ -21,7 +21,7 @@ calcular a composição corporal a partir da impedância bruta; o módulo de IA,
 SLM local; e a interface de interação com o usuário. O fluxo começa com a medição pelo
 usuário: os valores brutos de peso e impedância são lidos pelo navegador e enviados ao
 \emph{backend}, que calcula e armazena as métricas. Depois do processamento, os dados vão
-para o módulo de IA especializado em bioimpedância, que gera interpretações e recomendações
+para o módulo de IA, que gera interpretações e recomendações
 personalizadas, apresentadas ao usuário em uma interface web responsiva onde ele acompanha
 a evolução corporal ao longo do tempo.
 
@@ -114,18 +114,19 @@ gerar explicações, responder dúvidas e auxiliar no acompanhamento. Além da a
 assistente pode ser acessada pelo WhatsApp, onde o usuário consulta medições recentes, tira
 dúvidas sobre os indicadores e acompanha a evolução da composição corporal.
 
-\section{Implementação do Small Language Model Especialista em Bioimpedância}
+\section{Implementação do Assistente Virtual com SLM Local e Engenharia de Prompt}
 
 Interpretar dados de composição corporal exige analisar ao mesmo tempo vários parâmetros
 fisiológicos, como massa muscular, percentual de gordura, gordura visceral, água corporal
 total, massa óssea e indicadores metabólicos. Os aparelhos modernos fornecem muita
-informação, mas interpretá-la corretamente exige conhecimento especializado e a capacidade
-de relacionar os números às características de cada usuário. Por isso, o trabalho usa um SLM
-especializado em bioimpedância, capaz de analisar as métricas e gerar interpretações
-personalizadas em linguagem natural, unindo especialização no domínio, privacidade e
-eficiência computacional. Nessa abordagem, o modelo de linguagem não faz os cálculos
-biométricos: essas etapas ficam nos módulos de processamento, e o SLM atua depois,
-produzindo interpretações contextualizadas.
+informação, mas interpretá-la corretamente exige conhecimento do domínio e a capacidade de
+relacionar os números às características de cada usuário. Para isso, o trabalho usa um SLM de
+propósito geral (Qwen 2.5), orientado por um \emph{system prompt} com instruções e
+\emph{guardrails}, sem treinamento específico do modelo. O comportamento no domínio vem
+dessas instruções e dos dados já calculados que são injetados no \emph{prompt}, unindo
+orientação por \emph{prompt}, privacidade e eficiência computacional. Nessa abordagem, o
+modelo de linguagem não faz os cálculos biométricos: essas etapas ficam nos módulos de
+processamento, e o SLM atua depois, produzindo interpretações contextualizadas.
 
 \subsection{Motivação para Migração de LLM para SLM}
 
@@ -133,8 +134,9 @@ Nas etapas iniciais considerou-se usar LLMs de propósito geral. Modelos dessa c
 alta capacidade conversacional e amplo conhecimento geral, mas análises preliminares
 identificaram limitações para este contexto: dependência de serviços externos de inferência,
 envio de dados sensíveis a terceiros, custo de uso contínuo de APIs comerciais e respostas
-genéricas para métricas especializadas. Estudos recentes mostram que modelos menores, bem
-especializados em um domínio, podem ter desempenho igual ou melhor que os generalistas em
+genéricas para métricas específicas do domínio. Estudos recentes mostram que modelos menores,
+bem direcionados a um domínio por instruções, podem ter desempenho igual ou melhor que os
+generalistas em
 tarefas específicas~\cite{abdin2024,gemma2024,bai2023}. O uso de SLMs também se alinha à
 \emph{Green AI} e ao \emph{Privacy-First Healthcare}: o modelo roda localmente ou em
 servidor privado, o que reduz custos e dá mais controle sobre os dados~\cite{schwartz2020,etic2024}.
@@ -152,17 +154,16 @@ meio do Ollama. Embora o Gemma (Google) tenha sido avaliado como candidato, o Qw
 apresentou melhor desempenho em português e melhor adequação ao contexto, sendo o modelo
 efetivamente utilizado.
 
-\subsection{Construção da Base de Conhecimento e Regras de Interpretação}
+\subsection{Regras de Interpretação e Instruções do System Prompt}
 
-A especialização do modelo requer uma base de conhecimento sobre bioimpedância, composição
-corporal e saúde metabólica. Diferentemente dos modelos generalistas, o SLM foi direcionado
-a um conjunto de conhecimentos ligados ao problema. A base foi construída a partir de
-artigos revisados por pares, protocolos clínicos, diretrizes de avaliação nutricional e
-literatura sobre bioimpedância, além de materiais técnicos da CF577BLE e da documentação do
-seu protocolo Bluetooth, o que permite ao sistema interpretar corretamente os dados brutos.
-As referências selecionadas servem de base para as interpretações e ajudam a manter as
-análises alinhadas às evidências, reduzindo o risco de alucinações e aumentando a
-confiabilidade.
+O comportamento no domínio não vem de treinamento do modelo, mas de um \emph{system prompt}
+que reúne instruções, \emph{guardrails} e regras de interpretação fundamentadas na
+literatura. Essas regras foram elaboradas a partir de artigos revisados por pares, protocolos
+clínicos, diretrizes de avaliação nutricional e literatura sobre bioimpedância, além de
+materiais técnicos da CF577BLE e da documentação do seu protocolo Bluetooth, o que permite ao
+sistema interpretar corretamente os dados brutos. As referências adotadas orientam as
+interpretações e ajudam a manter as análises alinhadas às evidências, reduzindo o risco de
+alucinações e aumentando a confiabilidade.
 
 \subsection{Implementação do Modelo Qwen 2.5 (7B)}
 \label{sec:qwen}
@@ -191,7 +192,7 @@ literatura.
 
 \subsection{Engenharia de Prompt e Regras de Interpretação}
 
-A especialização da assistente não foi feita por treinamento adicional do modelo. Em vez
+A adaptação da assistente ao domínio não foi feita por treinamento adicional do modelo. Em vez
 disso, adotou-se a combinação entre processamento biométrico, regras de interpretação
 fundamentadas na literatura e técnicas de engenharia de \emph{prompt}. O modelo recebe os
 indicadores corporais já calculados, junto com informações contextuais e instruções que
@@ -224,7 +225,7 @@ um modelo base menor.
 
 \subsection{Arquitetura de Inferência}
 
-O modelo especializado foi incorporado ao \sintonia\ como componente responsável pela
+O modelo foi incorporado ao \sintonia\ como componente responsável pela
 geração das interpretações em linguagem natural. Na implementação atual, a inferência opera
 localmente. A estrutura permite futura implantação em servidores privados, caso requisitos
 de escalabilidade ou infraestrutura demandem. Em ambos os casos, o modelo recebe os
@@ -257,31 +258,31 @@ incerteza da estimativa, apresentada como intervalo de confiança no gráfico de
 Cada fator entra com uma severidade graduada conforme a dose e o tempo decorrido, pois o
 viés aumenta com a intensidade e diminui ao longo das horas.
 
-Tecnicamente, a correção é uma regressão linear \emph{within-user} por canal de impedância
-(impedância total em 50~kHz, 20~kHz e 100~kHz e canais segmentares). Para cada usuário,
-subtrai-se a sua linha de base (a média individual) das medições e dos fatores de contexto,
-operação conhecida como \emph{demeaning}, de modo que só as variações dentro do próprio
-usuário sejam modeladas e as diferenças fixas entre pessoas sejam eliminadas. Sobre esses
-desvios, estima-se por mínimos quadrados ordinários o coeficiente $\beta$ de cada confundidor
-(não-jejum, água, exercício e período menstrual), que indica o quanto aquele fator desloca o
-sinal; a correção subtrai esse deslocamento do valor medido, conforme a
-Equação~\ref{eq:correcao}. Os confundidores não são binários: cada um entra com uma
-severidade entre 0 e 1, proporcional à dose e ao tempo decorrido.
+Em termos de abordagem, a correção é uma regressão linear \emph{within-user} por canal de
+impedância (impedância total em 50~kHz, 20~kHz e 100~kHz e canais segmentares). Para cada
+usuário, subtrai-se a sua linha de base (a média individual), de modo que só as variações
+dentro do próprio usuário sejam modeladas e as diferenças fixas entre pessoas sejam
+eliminadas. Sobre esses desvios, o modelo estima o quanto cada confundidor (não-jejum, água,
+exercício e período menstrual) desloca o sinal e desconta esse deslocamento do valor medido.
+Os confundidores não são binários: cada um entra com uma severidade entre 0 e 1, proporcional
+à dose e ao tempo decorrido.
 
-\equacao{eq:correcao}{\mathrm{valor}_{\mathrm{corrigido}} = \mathrm{valor} - \sum_{k} \beta_k \cdot \mathrm{confundidor}_k}
+Para evitar estimativas instáveis quando o usuário tem poucas medições, o modelo usa uma
+formulação de efeitos mistos com \emph{partial pooling} (Bayes empírico): a sensibilidade de
+cada pessoa a cada fator é ``encolhida'' em direção à média da população e, quanto menos dados
+o usuário tem, mais o modelo recorre ao comportamento global. O modelo também quantifica a
+incerteza da correção, apresentada ao usuário como intervalo de confiança de 95\% no gráfico
+de evolução. A correção só entra em ação depois de um número mínimo de medições com anamnese
+preenchida (algumas em condições ideais e outras em condições alteradas), para que só atue
+quando há dados suficientes para aprender o viés individual. Toda a implementação é feita em
+Python puro, sem bibliotecas numéricas externas.
 
-Para evitar estimativas instáveis quando o usuário tem poucas medições, usa-se uma
-formulação de efeitos mistos com \emph{partial pooling} por Bayes empírico: a sensibilidade
-de cada pessoa a cada fator é ``encolhida'' em direção à média da população, com peso
-$w = \tau^2 / (\tau^2 + \mathrm{Var}(\beta_u))$. Quanto menos dados o usuário tem, mais o
-modelo recorre ao comportamento global. O modelo também estima a incerteza da correção pelo
-erro-padrão $\mathrm{SE} = \sqrt{\sigma^2 \, x^{\top} (X^{\top}X + \lambda I)^{-1} x}$,
-mostrado ao usuário como intervalo de confiança de 95\% no gráfico de evolução. A correção
-só entra em ação depois de um número mínimo de medições com anamnese preenchida (algumas em
-condições ideais e outras em condições alteradas), para que o modelo só atue quando há dados
-suficientes para aprender o viés individual. Tudo é implementado em Python puro, sem
-bibliotecas numéricas externas. É um dos diferenciais da plataforma, porque leva em conta
-fatores que os aplicativos comuns de bioimpedância costumam ignorar.
+Os detalhes matemáticos da formulação (estimadores, coeficientes e a expressão da incerteza),
+assim como os da calibração descrita na Seção~\ref{sec:testes}, foram omitidos por estarem em
+processo de proteção intelectual. Ainda assim, a abordagem aqui descrita e os resultados da
+Seção~\ref{sec:testes} permitem avaliar o funcionamento e a validade do método. Esse
+tratamento do contexto de cada medição é um dos diferenciais da plataforma, porque leva em
+conta fatores que os aplicativos comuns de bioimpedância costumam ignorar.
 
 \section{Processamento e Interpretação dos Dados Biométricos}
 
@@ -374,7 +375,7 @@ Após o processamento biométrico, os indicadores calculados são encaminhados �
 Vida, que recebe os resultados das análises, o histórico de medições e as informações
 contextuais. O modelo de linguagem não faz os cálculos de composição corporal; ele
 interpreta os resultados já processados e os transforma em explicações compreensíveis. O SLM
-funciona como uma camada de comunicação especializada, que contextualiza os indicadores,
+funciona como uma camada de comunicação que contextualiza os indicadores,
 esclarece dúvidas e dá orientações educacionais segundo as regras de interpretação do
 sistema. As respostas ficam disponíveis na aplicação web e em canais integrados, como o
 WhatsApp, onde o usuário consulta medições anteriores, acompanha tendências e conversa com o
@@ -434,9 +435,9 @@ Além dos testes funcionais, foi verificada a infraestrutura de calibração da 
 padrão DXA. A equação de Wahrlich et al.~\cite{wahrlich2026} foi validada em outro aparelho
 (Tanita BC-418, a 50~kHz), de modo que aplicá-la à CF577BLE (que mede a 20 e 100~kHz, com a
 impedância de 50~kHz interpolada) é uma aproximação específica do dispositivo. O \sintonia\
-já implementa um modelo de calibração por pessoa, baseado em regressão \emph{ridge} sobre o
-resíduo entre a FFM medida por DXA e a estimada pela equação, mas sua ativação depende de
-pares de medições CF577BLE e DXA da mesma pessoa, ainda não coletados.
+já implementa um modelo de calibração por pessoa, que ajusta a estimativa da FFM ao padrão
+DXA, mas sua ativação depende de pares de medições CF577BLE e DXA da mesma pessoa, ainda não
+coletados.
 
 Como esses dados de DXA ainda não existem, a infraestrutura foi avaliada por um estudo de
 simulação com viés de aparelho conhecido (40 sujeitos sintéticos, viés injetado de $+2{,}0$
@@ -446,28 +447,33 @@ estimativa de FFM de 1,64~kg para 0,39~kg, com viés médio remanescente de 0,00
 $R^2$ de 0,94 (Tabela~\ref{tab:calibracao}). O resultado mostra que o método de calibração
 funciona; não é validação clínica, que dependerá de medições reais por DXA.
 
-\tabela{Resultado do estudo de simulação da calibração CF577BLE $\rightarrow$ DXA (validação \emph{leave-one-out})}{tab:calibracao}{lc}{%
-    \toprule
-    Métrica & Valor \\
-    \midrule
-    Sujeitos sintéticos & 40 \\
-    Viés injetado (homens) & $+2{,}0$ kg \\
-    Viés injetado (por ponto de IMC $>25$) & $-0{,}06$ kg \\
-    Erro (SEE) sem calibração & 1,64 kg \\
-    Erro (SEE) com calibração & 0,39 kg \\
-    Viés médio remanescente & 0,00 kg \\
-    Ganho de $R^2$ & 0,94 \\
-    \bottomrule
-}
+\begin{table}[H]
+    \centering
+    \caption{Resultado do estudo de simulação da calibração CF577BLE $\rightarrow$ DXA (validação \emph{leave-one-out}).}
+    \label{tab:calibracao}
+    \begin{tabular}{lc}
+        \toprule
+        Métrica & Valor \\
+        \midrule
+        Sujeitos sintéticos & 40 \\
+        Viés injetado (homens) & $+2{,}0$ kg \\
+        Viés injetado (por ponto de IMC $>25$) & $-0{,}06$ kg \\
+        Erro (SEE) sem calibração & 1,64 kg \\
+        Erro (SEE) com calibração & 0,39 kg \\
+        Viés médio remanescente & 0,00 kg \\
+        Ganho de $R^2$ & 0,94 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 O treinamento desse modelo de calibração é feito a partir de um arquivo CSV com pares
 CF577BLE e DXA da mesma pessoa (sexo, idade, estatura, massa, impedância e a FFM medida por
-DXA), o mesmo formato que receberá os dados reais quando forem coletados. A partir desses
-pares, o modelo aprende um índice de calibração $k$ individual, que é aplicado na fórmula do
-índice de resistência. No estudo de simulação (30 pares), os homens (alvo do viés injetado) receberam $k \approx 0{,}94$ e as mulheres $k \approx 1{,}0$, e a FFM estimada aproximou-se
-da referência: o erro absoluto médio em relação ao DXA caiu de cerca de 1,3~kg (sem calibração)
-para 0,3~kg (com calibração). Assim, quando houver dados de DXA reais, basta substituir o CSV
-para que a calibração por pessoa passe a valer, sem qualquer outra alteração no sistema.
+DXA), o mesmo formato que receberá os dados reais quando forem coletados. No estudo de
+simulação (30 pares), o modelo aprendeu um fator de calibração individual e a FFM estimada
+aproximou-se da referência: o erro absoluto médio em relação ao DXA caiu de cerca de 1,3~kg
+(sem calibração) para 0,3~kg (com calibração). Assim, quando houver dados de DXA reais, basta
+substituir o CSV para que a calibração por pessoa passe a valer, sem qualquer outra alteração
+no sistema.
 
 O modelo de correção \emph{within-user} (Seção~\ref{sec:correcao}) também foi verificado por
 um estudo de simulação. Para um usuário, foram geradas medições com um viés de confundidor
@@ -496,15 +502,20 @@ como ilustra a Figura~\ref{fig:grafico-correcao}.
     \label{fig:grafico-correcao}
 \end{figure}
 
-\tabela{Estudo de simulação da correção \emph{within-user}: viés injetado por confundidor e viés recuperado pelo modelo (impedância de 50~kHz)}{tab:correcao}{lcc}{%
-    \toprule
-    Confundidor & Viés injetado ($\Omega$) & Viés recuperado ($\Omega$) \\
-    \midrule
-    Não estava em jejum & $+8{,}0$  & $+9{,}1$  \\
-    Ingeriu água        & $-18{,}0$ & $-16{,}0$ \\
-    Exercício recente    & $+25{,}0$ & $+27{,}1$ \\
-    \bottomrule
-}
+\begin{table}[H]
+    \centering
+    \caption{Estudo de simulação da correção \emph{within-user}: viés injetado por confundidor e viés recuperado pelo modelo (impedância de 50~kHz).}
+    \label{tab:correcao}
+    \begin{tabular}{lcc}
+        \toprule
+        Confundidor & Viés injetado ($\Omega$) & Viés recuperado ($\Omega$) \\
+        \midrule
+        Não estava em jejum & $+8{,}0$  & $+9{,}1$  \\
+        Ingeriu água        & $-18{,}0$ & $-16{,}0$ \\
+        Exercício recente    & $+25{,}0$ & $+27{,}1$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 Esses testes, ainda que preliminares e conduzidos com um número reduzido de medições,
 demonstraram o funcionamento integrado dos módulos do \sintonia\ e a viabilidade técnica da
