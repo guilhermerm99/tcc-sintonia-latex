@@ -43,10 +43,19 @@
     porém, têm caráter exploratório e ainda precisam de validação com conjuntos de dados
     maiores e acompanhamento longitudinal.
 
-    \item Embora o sistema use um SLM especializado para gerar as interpretações, não foram
-    realizadas nesta etapa técnicas de \emph{fine-tuning} supervisionado ou treinamento do
-    modelo com bases próprias. A especialização foi feita por regras de interpretação,
-    engenharia de \emph{prompt} e integração com modelos biométricos da literatura.
+    \item A correção \emph{within-user} usa as medições em condições ideais do próprio
+    usuário como linha de base, o que assume que a composição corporal se mantém relativamente
+    estável no período. Como o corpo muda ao longo do tempo (ganho ou perda de peso e de massa
+    muscular ao longo de semanas ou meses), uma linha de base formada sobre um intervalo longo
+    pode misturar estados fisiológicos diferentes e confundir a variação real da composição com
+    o viés dos fatores de contexto. O número de medições e a janela de tempo usados para formar
+    essa base ainda não são ajustados de forma adaptativa a essas mudanças.
+
+    \item Embora o sistema use um SLM para gerar as interpretações, não foram realizadas nesta
+    etapa técnicas de \emph{fine-tuning} supervisionado ou treinamento do modelo com bases
+    próprias. A adaptação ao domínio foi feita por engenharia de \emph{prompt} (um \emph{system
+    prompt} com instruções e \emph{guardrails}) e por regras de interpretação fundamentadas na
+    literatura.
 
     \item Da mesma forma, não foi feita a utilização efetiva de bases sintéticas para
     treinamento ou ajuste do modelo. Estratégias com dados sintéticos poderão ser
