@@ -14,8 +14,8 @@ automaticamente os dados da balança CF577BLE (Figura~\ref{fig:balanca}). A leit
 feita direto do dispositivo pelo navegador, pela API Web Bluetooth, sem depender de
 serviços em nuvem. A ideia inicial era usar um modelo de linguagem de grande porte
 (\emph{Large Language Model}, LLM), mas testes posteriores indicaram que um
-\emph{Small Language Model} (SLM) especializado e executado localmente atenderia
-melhor. O modelo adotado foi o Qwen 2.5 (7B), que interpreta as métricas de
+\emph{Small Language Model} (SLM) executado localmente e orientado por engenharia de
+\emph{prompt} atenderia melhor. O modelo adotado foi o Qwen 2.5 (7B), que interpreta as métricas de
 bioimpedância localmente e mantém os dados privados.
 
 O objetivo é transformar os dados brutos em interpretações claras e recomendações
